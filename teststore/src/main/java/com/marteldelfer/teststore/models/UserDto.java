@@ -12,13 +12,14 @@ public class UserDto {
     @NotEmpty(message = "Must not be empty")
     private String lastName;
 
-    @NotEmpty
+    @NotEmpty(message = "Must not be empty")
     @Email(message = "Must be a proper email adress")
     private String email;
 
-    @NotEmpty(message = "Must not be empty")
     @Size(min = 6, message = "Password must have at least 6 characters")
     private String password;
+
+    private String confirmPassword;
 
     
     public String getFirstName() {
@@ -51,5 +52,13 @@ public class UserDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }
