@@ -13,7 +13,7 @@ public class ProductDto {
     @NotEmpty(message = "Category is required")
     private String category;
 
-    @NotEmpty
+    @NotEmpty(message = "Brand is required")
     private String brand;
 
     @Min(0)
@@ -23,6 +23,7 @@ public class ProductDto {
     private int quantity;
 
     private String description;
+
     private MultipartFile imageFile;
 
     public String getName() {
