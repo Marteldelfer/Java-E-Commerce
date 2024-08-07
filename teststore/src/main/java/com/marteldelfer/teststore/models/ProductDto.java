@@ -1,35 +1,30 @@
 package com.marteldelfer.teststore.models;
 
-import java.util.Date;
+import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 
-@Table
-@Entity
-public class Product {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class ProductDto {
 
+    @NotEmpty(message = "Name is required")
     private String name;
+
+    @NotEmpty(message = "Category is required")
     private String category;
+
+    @NotEmpty
     private String brand;
+
+    @Min(0)
     private double price;
+
+    @Min(0)
     private int quantity;
 
-    @Column(columnDefinition = "TEXT")
     private String description;
-    private String imageName;
-    private Date createdAt;
+    private MultipartFile imageFile;
 
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
     public String getName() {
         return name;
     }
@@ -66,16 +61,10 @@ public class Product {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getImageName() {
-        return imageName;
+    public MultipartFile getImageFile() {
+        return imageFile;
     }
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setImageFile(MultipartFile imageFile) {
+        this.imageFile = imageFile;
     }
 }
