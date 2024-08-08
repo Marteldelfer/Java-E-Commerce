@@ -28,6 +28,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -109,5 +110,105 @@ public class ProductController {
 
         return "create-product.html";
     }
-    
+
+    @GetMapping("/edit")
+    public String editProduct(
+        Model model,
+        @RequestParam int id
+    ) {
+
+        try {
+            Product product = repo.findById(id).get();
+            model.addAttribute("product", product);
+
+            ProductDto productDto = new ProductDto();
+            productDto.setName(product.getName());
+            productDto.setBrand(product.getBrand());
+            productDto.setCategory(product.getCategory());
+            productDto.setDescription(product.getDescription());
+            productDto.setPrice(product.getPrice());
+            productDto.setQuantity(product.getQuantity());
+
+            model.addAttribute("productDto", productDto);
+
+        } catch (Exception ex){
+            System.out.println("Exception: " + ex.getMessage());
+            return "redirect/crud";
+        }
+        return "edit-product.html";
+    }
+
+    @PostMapping("/edit")
+    public String updateProduct(
+        Model model,
+        @RequestParam int id,
+        @Valid @ModelAttribute ProductDto productDto,
+        BindingResult result
+    ) {
+        try {
+            Product product = repo.findById(id).get();
+            model.addAttribute("product", product);
+
+            if (result.hasErrors()) {
+                return "edit-product.html";
+            }
+
+            if (!productDto.getImageFile().isEmpty()) {
+                String uploadDir = "/public/images/";
+                Path oldImagePath = Paths.get(uploadDir + product.getImageName());
+
+                try {
+                    Files.delete(oldImagePath);
+
+                } catch (Exception ex) {
+                    System.out.println("Exception: " + ex.getMessage());
+                }
+
+                MultipartFile image = productDto.getImageFile();
+                Date createdAt = new Date();
+                String storageFileName = createdAt.getTime() + "_" + image.getOriginalFilename();
+
+                try (InputStream inputStream = image.getInputStream()) {
+                    Files.copy(inputStream, Paths.get(uploadDir + storageFileName),
+                    StandardCopyOption.REPLACE_EXISTING);
+                }
+                product.setImageName(storageFileName);
+            }
+            product.setName(productDto.getName());
+            product.setBrand(productDto.getBrand());
+            product.setCategory(productDto.getCategory());
+            product.setDescription(productDto.getDescription());
+            product.setPrice(productDto.getPrice());
+            product.setQuantity(productDto.getQuantity());
+
+            repo.save(product);
+
+        }
+        catch (Exception ex) {
+            System.out.println("Exception: " + ex.getMessage());
+        }
+        return "redirect:/crud";
+    }
+
+    @GetMapping("/delete")
+    public String deleteProduct(
+        @RequestParam int id
+    ) {
+
+        try {
+            Product product = repo.findById(id).get();
+            Path imagePath = Paths.get("/public/images" + product.getImageName());
+
+            try {
+                Files.delete(imagePath);
+            } catch (Exception ex) {
+                System.out.println("Exception: " + ex);
+            }
+
+            repo.delete(product);
+        } catch (Exception ex) {
+            System.out.println("Exception: " + ex);
+        }
+        return "redirect:/crud";
+    }
 }

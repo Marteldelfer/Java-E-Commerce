@@ -11,7 +11,10 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.marteldelfer.teststore.models.Product;
+import com.marteldelfer.teststore.models.ProductDto;
 import com.marteldelfer.teststore.models.User;
 import com.marteldelfer.teststore.models.UserDto;
 import com.marteldelfer.teststore.repositories.UserRepository;
