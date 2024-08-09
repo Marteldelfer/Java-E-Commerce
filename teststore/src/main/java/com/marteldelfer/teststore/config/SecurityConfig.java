@@ -3,6 +3,7 @@ package com.marteldelfer.teststore.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,9 +18,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("public/**", "/images/**").permitAll()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/create-account").permitAll()
-                .requestMatchers("show").permitAll()
+                .requestMatchers("/show").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -33,5 +35,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
 }
