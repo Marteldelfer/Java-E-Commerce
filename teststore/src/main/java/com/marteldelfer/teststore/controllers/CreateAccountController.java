@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.marteldelfer.teststore.models.Cart;
 import com.marteldelfer.teststore.models.Product;
 import com.marteldelfer.teststore.models.ProductDto;
 import com.marteldelfer.teststore.models.User;
 import com.marteldelfer.teststore.models.UserDto;
+import com.marteldelfer.teststore.repositories.CartRepository;
 import com.marteldelfer.teststore.repositories.UserRepository;
 
 import jakarta.validation.Valid;
@@ -26,6 +28,9 @@ public class CreateAccountController {
     
     @Autowired
     private UserRepository repo;
+    
+    @Autowired
+    private CartRepository cartRepo;
 
     @GetMapping("/create-account")
     public String showCreateAccountPage(Model model) {
@@ -74,6 +79,9 @@ public class CreateAccountController {
             newUser.setPassword(bCryptEncoder.encode(userDto.getPassword()));
 
             repo.save(newUser);
+
+            Cart cart = new Cart();
+            cartRepo.save(cart);
 
             model.addAttribute("userDto", new UserDto());
             model.addAttribute("success", true);

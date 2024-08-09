@@ -19,6 +19,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/create-account").permitAll()
+                .requestMatchers("show").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -32,4 +33,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    
 }
