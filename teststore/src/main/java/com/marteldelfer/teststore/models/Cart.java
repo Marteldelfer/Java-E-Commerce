@@ -17,4 +17,23 @@ public class Cart {
 
     private List<Integer> indexList;
     private List<Integer> quantityList;
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public List<Integer> getIndexList() {
+        return indexList;
+    }
+    public void setIndexList(List<Integer> indexList) {
+        this.indexList = indexList;
+    }
+    public List<Integer> getQuantityList() {
+        return quantityList;
+    }
+    public void setQuantityList(List<Integer> quantityList) {
+        this.quantityList = quantityList;
+    }    
 }

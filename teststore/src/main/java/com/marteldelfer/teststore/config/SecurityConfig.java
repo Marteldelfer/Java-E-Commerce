@@ -18,9 +18,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("public/**", "/images/**").permitAll()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/create-account").permitAll()
-                .requestMatchers("show").permitAll()
+                .requestMatchers("/show").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -34,13 +35,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-        .antMatchers("/images/**");
-    }
-
-
-    
 }

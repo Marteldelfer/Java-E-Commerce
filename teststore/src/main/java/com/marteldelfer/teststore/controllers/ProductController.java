@@ -78,7 +78,7 @@ public class ProductController {
         String storageFileName = createdAt.getTime() + image.getOriginalFilename();
 
         try {
-            String uploadDir = "/src/main/resources/static/images/";
+            String uploadDir = "public/images/";
             Path uploadPath = Paths.get(uploadDir);
 
             if (!Files.exists(uploadPath)) {
@@ -154,7 +154,7 @@ public class ProductController {
             }
 
             if (!productDto.getImageFile().isEmpty()) {
-                String uploadDir = "src/main/resources/static/images/";
+                String uploadDir = "/public/images/";
                 Path oldImagePath = Paths.get(uploadDir + product.getImageName());
 
                 try {
@@ -197,7 +197,7 @@ public class ProductController {
 
         try {
             Product product = repo.findById(id).get();
-            Path imagePath = Paths.get("src/main/resources/static/images/" + product.getImageName());
+            Path imagePath = Paths.get("/public/images" + product.getImageName());
 
             try {
                 Files.delete(imagePath);
