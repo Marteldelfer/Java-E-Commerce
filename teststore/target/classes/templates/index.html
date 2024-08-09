@@ -21,8 +21,8 @@
             <div class="row text-center">
                 <div class="col-sm" th:each="product : ${products}" >
                     <a th:href="@{/show(id=${product.id})}">
-                        <img th:src="@{'/images/' + ${product.imageName}}"
-							alt="$..." height="200">
+                        <img th:src="@{'/images/' + ${product.imageName}}" 
+                        alt="..." width="150">
                         <p th:text="${product.name}"></p>
                     </a>
                 </div>
