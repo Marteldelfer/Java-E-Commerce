@@ -16,6 +16,13 @@
             <a class="btn btn-primary" href="/crud">Product CRUD</a>
         </div>
         <hr>
+        <div th:if="${success}"
+         class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Product added to the cart</strong>
+            <a class="ms-2" href="/cart">Cart</a>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+            aria-label="Close"></button>
+        </div>
         <div class="row">
             <div class="col">
                 <img th:src="@{'/images/' + ${product.imageName}}" alt="..." height="500">

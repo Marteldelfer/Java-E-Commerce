@@ -33,6 +33,7 @@ public class HomeController {
         ) {
         Product product = repo.findById(id).get();
         model.addAttribute("product", product);
+        model.addAttribute("success", false);
         return "show-product.html";
     }
 }
