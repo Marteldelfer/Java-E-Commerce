@@ -1,6 +1,8 @@
 package com.marteldelfer.teststore.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -81,6 +83,9 @@ public class CreateAccountController {
             repo.save(newUser);
 
             Cart cart = new Cart();
+            List<Integer> list = new ArrayList<>();
+            cart.setIndexList(list);
+            cart.setQuantityList(list);
             cartRepo.save(cart);
 
             model.addAttribute("userDto", new UserDto());
