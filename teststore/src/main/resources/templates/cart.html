@@ -17,12 +17,60 @@
             <a class="btn btn-primary" href="/crud">Product CRUD</a>
         </div>
         <hr>
-            <div class="row" th:each="product : ${products}">
-                <div class="col">
-                    <img th:src="@{'/images/' + ${product.imageName}}" alt="..."
-                    width="100">
-                </div>
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="product,iterStat : ${products}">
+                            <td>
+                                <img th:src="@{'images/' + ${product.imageName}}" alt=""
+                                width="100">
+                            </td>
+                            <td th:text="${product.name}"></td>
+                            <td th:text="${listQuantity[iterStat.index]}"></td>
+                            <td>
+                                <a class="btn btn-outline-danger" href="/remove-from-cart">
+                                    Remove Item
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+						<div class="col">
+							<h3>Cost</h3>
+							<table>
+								<thead>
+									<th>Product</th>
+									<th>Quantity</th>
+									<th>Total</th>
+								</thead>
+								<tbody>
+									<tr th:each="product,iterStat : ${products}">
+										<td th:text="${product.name}"></td>
+										<td th:text="${listQuantity[iterStat.index]}" class="text-center"></td>
+										<td th:with="price = ${product.price},
+										 quantity = ${listQuantity[iterStat.index]},
+										 total = ${price * quantity}"
+										th:text="@{${total} + '$'}"></td>
+									</tr>
+								</tbody>
+							</table>
+							<hr>
+							<h3>Total</h3>
+							<p th:text="@{${totalCost} + '$'}"></p>
+							<th:block></th:block>
+							<a href="/purchase" class="btn btn-primary">Purchase</a>
+						</div>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

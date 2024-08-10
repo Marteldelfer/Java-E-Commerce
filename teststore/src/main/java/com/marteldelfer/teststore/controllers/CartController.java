@@ -86,8 +86,17 @@ public class CartController {
         List<Integer> listIndex = cart.getIndexList();
         List<Integer> listQuantity = cart.getQuantityList();
         listIndex.forEach(index -> products.add(productRepo.findById(index).get()));
+
+        double totalCost = 0;
+        int i = -1;
+        for (Product product : products) {
+            i += 1;
+            totalCost += product.getPrice() * listQuantity.get(i);
+        }
         
+        model.addAttribute("totalCost", totalCost);
         model.addAttribute("products", products);
+        model.addAttribute("listQuantity", listQuantity);
         return "cart.html";
     }
 }
