@@ -37,7 +37,6 @@ public class CartController {
         Model model,
         @RequestParam int id
     ) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
 
@@ -52,8 +51,9 @@ public class CartController {
                 cartRepo.save(cart);
             } else {
                 int quantityIndex = cart.getIndexList().indexOf(id);
+                int quantity = cart.getQuantityList().get(quantityIndex);
                 cart.getQuantityList().set(quantityIndex,
-                (cart.getQuantityList().get(quantityIndex) + 1));
+                (quantity + 1));
 
                 cartRepo.save(cart);
             }
@@ -61,19 +61,33 @@ public class CartController {
             List<Product> products = new ArrayList<Product>();
             List<Integer> indexList = cart.getIndexList();
             List<Integer> quantityList = cart.getQuantityList();
+            Product product = productRepo.findById(id).get();
 
-            indexList.forEach((index) -> products.add(productRepo.findById(index).get()));
-            model.addAttribute("products", products);
-            model.addAttribute("quantityList", quantityList);
-
-            return "cart.html";
+            model.addAttribute("product", product);
+            model.addAttribute("success", true);
+            return "show-product.html";
 
         } else {
             return "/login";
         } 
     }
     @GetMapping("/cart")
-    public String cart() {
+    public String cart(
+        Model model
+    ) {
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userRepo.findByEmail(email);
+        int userId = user.getId();
+        Cart cart = cartRepo.findById(userId).get();
+
+        List<Product> products = new ArrayList<Product>();
+        List<Integer> listIndex = cart.getIndexList();
+        List<Integer> listQuantity = cart.getQuantityList();
+        listIndex.forEach(index -> products.add(productRepo.findById(index).get()));
+        
+        model.addAttribute("products", products);
         return "cart.html";
     }
 }

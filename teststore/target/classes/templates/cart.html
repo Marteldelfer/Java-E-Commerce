@@ -17,12 +17,12 @@
             <a class="btn btn-primary" href="/crud">Product CRUD</a>
         </div>
         <hr>
-        <div class="row" th:each="product : ${products}">
-            <div class="col">
-                <img th:src="@{'/images/' + ${product.imageName}}" alt="..."
-                height="100">
+            <div class="row" th:each="product : ${products}">
+                <div class="col">
+                    <img th:src="@{'/images/' + ${product.imageName}}" alt="..."
+                    width="100">
+                </div>
             </div>
-        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
