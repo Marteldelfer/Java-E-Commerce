@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +9,7 @@
 
 <body>
     <div class="container">
-        <h1 class="text-center">Home Page</h1>
+        <h1 class="text-center">Cart</h1>
         <hr>
         <div class="text-center">
             <a class="btn btn-primary" href="/create-account">Create Account</a>
@@ -16,15 +17,10 @@
             <a class="btn btn-primary" href="/crud">Product CRUD</a>
         </div>
         <hr>
-        <div class="row">
+        <div class="row" th:each="product : ${products}">
             <div class="col">
-                <img th:src="@{'/images/' + ${product.imageName}}" alt="..." height="500">
-            </div>
-            <div class="col text-center">
-                <a href="/purchase-screen" class="btn btn-primary">Buy Product</a>
-                <br>
-                <br>
-                <a th:href="@{/add-to-cart(id=${product.id})}" class="btn btn-outline-primary">Add Product to Cart</a>
+                <img th:src="@{'/images/' + ${product.imageName}}" alt="..."
+                height="100">
             </div>
         </div>
     </div>

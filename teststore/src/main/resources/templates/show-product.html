@@ -24,7 +24,7 @@
                 <a href="/purchase-screen" class="btn btn-primary">Buy Product</a>
                 <br>
                 <br>
-                <a href="/add-to-cart" class="btn btn-outline-primary">Add Product to Cart</a>
+                <a th:href="@{/add-to-cart(id=${product.id})}" class="btn btn-outline-primary">Add Product to Cart</a>
             </div>
         </div>
     </div>
