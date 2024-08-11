@@ -11,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.marteldelfer.teststore.models.Cart;
+import com.marteldelfer.teststore.models.Product;
 import com.marteldelfer.teststore.models.Purchase;
 import com.marteldelfer.teststore.models.User;
 import com.marteldelfer.teststore.repositories.CartRepository;
+import com.marteldelfer.teststore.repositories.ProductRepository;
 import com.marteldelfer.teststore.repositories.PurchaseRepository;
 import com.marteldelfer.teststore.repositories.UserRepository;
 
@@ -28,6 +30,9 @@ public class PurchaseController {
 
     @Autowired
     CartRepository cartRepo;
+
+    @Autowired
+    ProductRepository productRepo;
 
     @GetMapping("/purchase")
     public String purchase(
@@ -48,7 +53,31 @@ public class PurchaseController {
         purchaseRepo.save(purchase);
 
         if (!cart.getIndexList().isEmpty()) {
-            
+
+            int i = -1;
+            List<Integer> quantityList = cart.getQuantityList();
+            for (int productIndex : cart.getIndexList()) {
+
+                i++;
+                Product product = productRepo.findById(productIndex).get();
+
+                if (product.getQuantity() < quantityList.get(i)) {
+                    
+                    model.addAttribute("notEnough", true);
+                    model.addAttribute("product", product);
+                    return "cart.html";
+                }
+            }
+
+            i = -1;
+            for (Integer productIndex : cart.getIndexList()) {
+                
+                i++;
+                Product product = productRepo.findById(productIndex).get();
+                product.setQuantity(product.getQuantity() - quantityList.get(i));
+                productRepo.save(product);
+            }
+
             //Clearing cart
             List<Integer> newList = new ArrayList<>();
             cart.setIndexList(newList);
