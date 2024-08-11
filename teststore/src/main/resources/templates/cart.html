@@ -17,6 +17,12 @@
             <a class="btn btn-primary" href="/crud">Product CRUD</a>
         </div>
         <hr>
+				<div th:if="${notEnough}"
+         class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong th:text="@{'Not enough ' + ${product.name} + ' available in stock'}"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+            aria-label="Close"></button>
+        </div>
 				<div th:if="${failed}"
          class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>Cannot complete purchase with an empty cart</strong>
