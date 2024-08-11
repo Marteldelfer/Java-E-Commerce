@@ -1,6 +1,7 @@
 package com.marteldelfer.teststore.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,13 +46,6 @@ public class PurchaseController {
         int userId = user.getId();
         Cart cart = cartRepo.findById(userId).get();
 
-        //Creating  and saving purchase
-        Purchase purchase = new Purchase();
-        purchase.setProductList(cart.getIndexList());
-        purchase.setProductQuantity(cart.getQuantityList());
-        purchase.setUserId(userId);
-        purchaseRepo.save(purchase);
-
         if (!cart.getIndexList().isEmpty()) {
 
             int i = -1;
@@ -78,23 +72,54 @@ public class PurchaseController {
                 productRepo.save(product);
             }
 
+            //Creating  and saving purchase
+            Purchase purchase = new Purchase();
+            purchase.setProductList(cart.getIndexList());
+            purchase.setProductQuantity(cart.getQuantityList());
+            purchase.setCreatedAt(new Date());
+            purchase.setUserId(userId);
+            purchaseRepo.save(purchase);
+
             //Clearing cart
             List<Integer> newList = new ArrayList<>();
             cart.setIndexList(newList);
             cart.setQuantityList(newList);
             cartRepo.save(cart);
 
-            //Adds purchases to model
-            List<Purchase> purchases = purchaseRepo.findByUserId(userId);
+            //Adds purchase to model
+            List<Product> products = new ArrayList<>();
+            for (int productIndex : purchase.getProductList()) {
+                products.add(productRepo.findById(productIndex).get());
+            }
+            model.addAttribute("products", products);
+            model.addAttribute("quantityList", quantityList);
             model.addAttribute("success", true);
-            model.addAttribute("purchases", purchases);
 
         } else {
             model.addAttribute("failed", true);
             return "cart.html";
         }
-
         
-        return "purchases.html";
+        
+        return "purchase-completed.html";
+    }
+
+    @GetMapping("/order-history")
+    public String showOrderHistory(
+        Model model
+    ) {
+        //Finds current user id and cart
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userRepo.findByEmail(email);
+        int userId = user.getId();
+
+        List<Purchase> orders = purchaseRepo.findByUserId(userId);
+        ProductRepository products = productRepo;
+
+        model.addAttribute("orders", orders);
+        model.addAttribute("products", products);
+        
+        return "order-history.html";
     }
 }
