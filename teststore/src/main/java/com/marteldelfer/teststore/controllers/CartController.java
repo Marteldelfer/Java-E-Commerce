@@ -86,8 +86,43 @@ public class CartController {
         List<Integer> listIndex = cart.getIndexList();
         List<Integer> listQuantity = cart.getQuantityList();
         listIndex.forEach(index -> products.add(productRepo.findById(index).get()));
+
+        double totalCost = 0;
+        int i = -1;
+        for (Product product : products) {
+            i += 1;
+            totalCost += product.getPrice() * listQuantity.get(i);
+        }
         
+        model.addAttribute("totalCost", totalCost);
         model.addAttribute("products", products);
+        model.addAttribute("listQuantity", listQuantity);
         return "cart.html";
+    }
+
+    @GetMapping("/remove")
+    public String removeFromCart(
+        Model model,
+        @RequestParam int id
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userRepo.findByEmail(email);
+        int userId = user.getId();
+        Cart cart = cartRepo.findById(userId).get();
+        
+        List<Integer> products = cart.getIndexList();
+        List<Integer> listQuantity = cart.getQuantityList();
+
+        int index = products.indexOf(id);
+        products.remove(index);
+        listQuantity.remove(index);
+
+        cart.setIndexList(products);
+        cart.setQuantityList(listQuantity);
+
+        cartRepo.save(cart);
+
+        return "redirect:/cart";
     }
 }
