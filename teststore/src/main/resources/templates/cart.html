@@ -17,6 +17,12 @@
             <a class="btn btn-primary" href="/crud">Product CRUD</a>
         </div>
         <hr>
+				<div th:if="${failed}"
+         class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Cannot complete purchase with an empty cart</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+            aria-label="Close"></button>
+        </div>
         <div class="row">
             <div class="col">
                 <table class="table">
