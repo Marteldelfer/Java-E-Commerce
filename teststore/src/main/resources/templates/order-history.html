@@ -27,13 +27,19 @@
 					<td>
 						<h3 th:text="@{${iterStat.index + 1} + '° Order'}"></h3>
 					</td>
+					<td th:text="${order.createdAt.toString.substring(0,10)}"></td>
 					<tr th:each="index,iterStat : ${order.productList}">
 						<td>
 							<img th:src="@{'images/' + ${products.findById(index).get().imageName}}" alt="..."
 							width="100">
 						</td>
 						<td th:text="${products.findById(index).get().name}"></td>
-						<td th:text="${order.productList.get(iterStat.index)}"></td>
+						<td th:text="@{${order.productQuantity.get(iterStat.index)} + 'x'}"></td>
+						<td th:text="@{${products.findById(index).get().price} + '$'}"></td>
+						<td th:with="price = ${products.findById(index).get().price},
+							quantity = ${order.productQuantity.get(iterStat.index)},
+							total = ${price * quantity}"
+							th:text="${total}"></td>
 					</tr>
 				</div>
 			</tbody>

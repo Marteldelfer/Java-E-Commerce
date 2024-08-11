@@ -1,6 +1,7 @@
 package com.marteldelfer.teststore.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,7 @@ public class PurchaseController {
             Purchase purchase = new Purchase();
             purchase.setProductList(cart.getIndexList());
             purchase.setProductQuantity(cart.getQuantityList());
+            purchase.setCreatedAt(new Date());
             purchase.setUserId(userId);
             purchaseRepo.save(purchase);
 

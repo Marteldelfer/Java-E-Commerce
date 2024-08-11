@@ -1,6 +1,7 @@
 package com.marteldelfer.teststore.models;
 
 import java.util.List;
+import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,6 +18,8 @@ public class Purchase {
     private List<Integer> productList;
 
     private List<Integer> productQuantity;
+
+    private Date createdAt;
 
     private int userId;
 
@@ -43,12 +46,20 @@ public class Purchase {
     public void setProductQuantity(List<Integer> productQuantity) {
         this.productQuantity = productQuantity;
     }
-
+    
     public int getUserId() {
         return userId;
     }
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }   
 }
