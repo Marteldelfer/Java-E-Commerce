@@ -37,7 +37,8 @@
                             <td th:text="${product.name}"></td>
                             <td th:text="${listQuantity[iterStat.index]}"></td>
                             <td>
-                                <a class="btn btn-outline-danger" href="/remove-from-cart">
+                                <a class="btn btn-outline-danger"
+																 th:href="@{/remove(id=${product.id})}">
                                     Remove Item
                                 </a>
                             </td>
