@@ -36,4 +36,13 @@ public class HomeController {
         model.addAttribute("success", false);
         return "show-product.html";
     }
+
+    @GetMapping("/search")
+    public String search(Model model, @RequestParam String keyword) {
+        System.out.println("Searching with " + keyword);
+        List<Product> products = repo.searchProducts(keyword);
+        model.addAttribute("products", products);
+        model.addAttribute("keyword", "");
+        return "search.html";
+    }
 }
