@@ -18,6 +18,12 @@
             <a class="btn btn-primary" href="/cart">Shopping Cart</a>
         </div>
         <hr>
+        <form method="get" th:action="@{/search(keyword=${keyword})}">
+            <input class="form-control" type="text" placeholder="Search..." th:name="keyword">
+            <input type="submit" class="btn btn-primary">
+            </a>
+        </form>
+        <hr>
         <div>
             <div class="row text-center">
                 <div class="col-sm" th:each="product : ${products}" >

@@ -22,6 +22,7 @@ public class SecurityConfig {
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/create-account").permitAll()
                 .requestMatchers("/show").permitAll()
+                .requestMatchers("/search").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
