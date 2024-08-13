@@ -1,5 +1,8 @@
 package com.marteldelfer.teststore.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,11 +15,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.marteldelfer.teststore.models.User;
 import com.marteldelfer.teststore.models.UserDto;
+import com.marteldelfer.teststore.models.Purchase;
+import com.marteldelfer.teststore.repositories.CartRepository;
+import com.marteldelfer.teststore.repositories.PurchaseRepository;
 import com.marteldelfer.teststore.repositories.UserRepository;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -25,6 +33,12 @@ public class ProfileController {
     
     @Autowired
     UserRepository userRepo;
+
+    @Autowired
+    PurchaseRepository purchaseRepo;
+
+    @Autowired
+    CartRepository cartRepo;
 
     @GetMapping({"/",""})
     public String showProfile(Model model) {
@@ -93,5 +107,28 @@ public class ProfileController {
         model.addAttribute("user", user);
 
         return "profile-page.html";
+    }
+
+    @GetMapping("/delete")
+    public String deleteUser() {
+        //Get current user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userRepo.findByEmail(email);
+        Integer userIndex = user.getId();
+
+        try {
+            userRepo.delete(user);
+            cartRepo.delete(cartRepo.findById(userIndex).get());
+            List<Purchase> purchases = purchaseRepo.findByUserId(userIndex);
+
+            for (Purchase purchase : purchases) {
+                purchaseRepo.delete(purchase);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+        
+        return "redirect:/";
     }
 }
