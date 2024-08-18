@@ -1,5 +1,6 @@
 package com.marteldelfer.teststore;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -11,9 +12,11 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.marteldelfer.teststore.models.Cart;
 import com.marteldelfer.teststore.models.Privilege;
 import com.marteldelfer.teststore.models.Role;
 import com.marteldelfer.teststore.models.User;
+import com.marteldelfer.teststore.repositories.CartRepository;
 import com.marteldelfer.teststore.repositories.PrivilegeRepository;
 import com.marteldelfer.teststore.repositories.RoleRepository;
 import com.marteldelfer.teststore.repositories.UserRepository;
@@ -33,6 +36,9 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     @Autowired
     private PrivilegeRepository privilegeRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Transactional
     public Privilege createPrivilegeIfNotFound(String name) {
@@ -90,6 +96,12 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             user.setRoles(Arrays.asList(adminRole));
             user.setEnabled(true);
             userRepository.save(user);
+
+            Cart cart = new Cart();
+            List<Integer> list = new ArrayList<>();
+            cart.setIndexList(list);
+            cart.setQuantityList(list);
+            cartRepository.save(cart);
 
             alreadySetup = true;
         }

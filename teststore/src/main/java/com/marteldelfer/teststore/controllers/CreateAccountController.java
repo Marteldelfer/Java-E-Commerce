@@ -1,6 +1,7 @@
 package com.marteldelfer.teststore.controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class CreateAccountController {
             newUser.setCreatedAt(new Date());
             newUser.setPassword(bCryptEncoder.encode(userDto.getPassword()));
             newUser.setEnabled(true);
-            newUser.setRoles(roleRepository.findByName("ROLE_USER"));
+            newUser.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 
             repo.save(newUser);
 
