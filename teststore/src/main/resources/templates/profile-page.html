@@ -35,13 +35,6 @@
 			</div>
 
 			<div class="row mb-3">
-				<label class="col-sm-4 col-form-label">Role</label>
-				<div class="col-sm-8">
-					<label class="form-control" th:text="${user.role}"></label>
-				</div>
-			</div>
-
-			<div class="row mb-3">
 				<label class="col-sm-4 col-form-label">Joined Us in</label>
 				<div class="col-sm-8">
 					<label class="form-control" th:text="${user.createdAt.toString.substring(0,10)}"></label>

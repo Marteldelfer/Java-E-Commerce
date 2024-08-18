@@ -21,6 +21,7 @@ import com.marteldelfer.teststore.models.ProductDto;
 import com.marteldelfer.teststore.models.User;
 import com.marteldelfer.teststore.models.UserDto;
 import com.marteldelfer.teststore.repositories.CartRepository;
+import com.marteldelfer.teststore.repositories.RoleRepository;
 import com.marteldelfer.teststore.repositories.UserRepository;
 
 import jakarta.validation.Valid;
@@ -33,6 +34,9 @@ public class CreateAccountController {
     
     @Autowired
     private CartRepository cartRepo;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping("/create-account")
     public String showCreateAccountPage(Model model) {
@@ -76,9 +80,10 @@ public class CreateAccountController {
             newUser.setFirstName(userDto.getFirstName());
             newUser.setLastName(userDto.getLastName());
             newUser.setEmail(userDto.getEmail());
-            newUser.setRole("client");
             newUser.setCreatedAt(new Date());
             newUser.setPassword(bCryptEncoder.encode(userDto.getPassword()));
+            newUser.setEnabled(true);
+            newUser.setRoles(roleRepository.findByName("ROLE_USER"));
 
             repo.save(newUser);
 
