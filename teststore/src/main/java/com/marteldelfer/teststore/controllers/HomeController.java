@@ -1,5 +1,6 @@
 package com.marteldelfer.teststore.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,25 @@ public class HomeController {
     
     @GetMapping("")
     public String showHomePage(Model model) {
-        List<Product> products = repo.findAll(Sort.by("id"));
+        List<Product> allProducts = repo.findAll(Sort.by("id"));
+        List<List<Product>> products = new ArrayList<>();
+
+        int i = 0;
+        List<Product> innerList = new ArrayList<>();
+        for (Product product : allProducts) {
+            
+            innerList.add(product);
+            i++;
+
+            if (i == 4) {
+                i = 0;
+                products.add(innerList);
+                innerList.clear();
+            }
+        }
+        if (!innerList.isEmpty()) {
+            products.add(innerList);
+        }
         model.addAttribute("products", products);
         return "index.html";
     }

@@ -61,11 +61,12 @@
 	<div class="container">
 		<br>
 		<div>
-			<div class="row text-center">
-				<div class="col-sm" th:each="product : ${products}">
+			<div class="row-mb-3 text-center" th:each="innerList : ${products}">
+				<div class="col-lg-2 mx-auto rounded border p-4" th:each="product : ${innerList}">
 					<a th:href="@{/show(id=${product.id})}">
 						<img th:src="@{'/images/' + ${product.imageName}}" alt="$..." height="200">
-						<p th:text="${product.name}"></p>
+            <br>
+						<label class="text-dark" th:text="${product.name}"></label>
 					</a>
 				</div>
 			</div>
