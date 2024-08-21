@@ -61,9 +61,28 @@ public class HomeController {
     @GetMapping("/search")
     public String search(Model model, @RequestParam String keyword) {
         System.out.println("Searching with " + keyword);
-        List<Product> products = repo.searchProducts(keyword);
+        List<Product> allProducts = repo.searchProducts(keyword);
+        List<List<Product>> products = new ArrayList<>();
+
+        int i = 0;
+        List<Product> innerList = new ArrayList<>();
+        for (Product product : allProducts) {
+
+            innerList.add(product);
+            i++;
+
+            if (i == 5) {
+                i = 0;
+                List<Product> newProducts = new ArrayList<>();
+                newProducts.addAll(innerList);
+                products.add(newProducts);
+                innerList.clear();
+            }
+        }
+        if (!innerList.isEmpty()) {
+            products.add(innerList);
+        }
         model.addAttribute("products", products);
-        model.addAttribute("keyword", "");
         return "search.html";
     }
 }
