@@ -28,13 +28,15 @@ public class HomeController {
         int i = 0;
         List<Product> innerList = new ArrayList<>();
         for (Product product : allProducts) {
-            
+
             innerList.add(product);
             i++;
 
-            if (i == 4) {
+            if (i == 5) {
                 i = 0;
-                products.add(innerList);
+                List<Product> newProducts = new ArrayList<>();
+                newProducts.addAll(innerList);
+                products.add(newProducts);
                 innerList.clear();
             }
         }
