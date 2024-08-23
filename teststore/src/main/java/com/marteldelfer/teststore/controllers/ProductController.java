@@ -21,7 +21,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.marteldelfer.teststore.models.Product;
 import com.marteldelfer.teststore.models.ProductDto;
+import com.marteldelfer.teststore.models.Purchase;
+import com.marteldelfer.teststore.models.User;
 import com.marteldelfer.teststore.repositories.ProductRepository;
+import com.marteldelfer.teststore.repositories.PurchaseRepository;
+import com.marteldelfer.teststore.repositories.UserRepository;
 
 import jakarta.validation.Valid;
 
@@ -38,6 +42,12 @@ public class ProductController {
     
     @Autowired
     private ProductRepository repo;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PurchaseRepository purchaseRepository;
 
     @GetMapping("")
     public String showCrudPage(Model model) {
@@ -210,5 +220,18 @@ public class ProductController {
             System.out.println("Exception: " + ex);
         }
         return "redirect:/crud";
+    }
+    @GetMapping("/all-orders")
+    public String showAllOrders(Model model) {
+
+        ProductRepository products = repo;
+        List<Purchase> purchases = purchaseRepository.findAll();
+        UserRepository users = userRepository;
+
+        model.addAttribute("products", products);
+        model.addAttribute("purchases", purchases);
+        model.addAttribute("users", users);
+
+        return "all-orders.html";
     }
 }
