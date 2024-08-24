@@ -61,7 +61,7 @@
 
 	<div class="container">
     <div th:each="purchase, iterStat : ${purchases}">
-      <div class="border rounded mx-auto py-4">
+      <div class="border rounded py-4">
         <h3 th:text="@{${users.findById(purchase.userId).get().firstName} + ' ' + 
           ${users.findById(purchase.userId).get().lastName}}"></h3>
         <table class="table text-center">
