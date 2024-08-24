@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -225,12 +226,21 @@ public class ProductController {
     public String showAllOrders(Model model) {
 
         ProductRepository products = repo;
-        List<Purchase> purchases = purchaseRepository.findAll();
+        List<Purchase> purchases = purchaseRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
         UserRepository users = userRepository;
+
+        List<Double> totals = new ArrayList<>();
+        for (Purchase purchase : purchases) {
+            for (int i = 0; i < purchase.getProductList().size(); i++) {
+                Product product = products.findById(purchase.getProductList().get(i)).get();
+                totals.add(product.getPrice() * purchase.getProductQuantity().get(i));
+            }
+        }
 
         model.addAttribute("products", products);
         model.addAttribute("purchases", purchases);
         model.addAttribute("users", users);
+        model.addAttribute("totals", totals);
 
         return "all-orders.html";
     }
