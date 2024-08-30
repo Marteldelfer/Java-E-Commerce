@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import com.marteldelfer.teststore.models.Privilege;
 import com.marteldelfer.teststore.models.Role;
-import com.marteldelfer.teststore.models.User;
 import com.marteldelfer.teststore.repositories.PrivilegeRepository;
 import com.marteldelfer.teststore.repositories.RoleRepository;
 import com.marteldelfer.teststore.repositories.UserRepository;
