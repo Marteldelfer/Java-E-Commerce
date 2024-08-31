@@ -79,6 +79,16 @@
             <td th:with="price = ${products.findById(index).get().price},
 							quantity = ${order.productQuantity.get(iterStat.index)},
 							total = ${price * quantity}" th:text="${total}"></td>
+						<tr>
+							<td>
+								<div th:if="${order.sent}">
+									<h5>Order already Sent</h5>
+								</div>
+								<div th:if="${!order.sent}">
+									<h5>Order not sent</h5>
+								</div>
+							</td>
+						</tr>
           </tr>
         </div>
       </tbody>

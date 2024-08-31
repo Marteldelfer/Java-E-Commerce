@@ -59,9 +59,6 @@ public class CartController {
                 cartRepo.save(cart);
             }
 
-            List<Product> products = new ArrayList<Product>();
-            List<Integer> indexList = cart.getIndexList();
-            List<Integer> quantityList = cart.getQuantityList();
             Product product = productRepo.findById(id).get();
 
             model.addAttribute("product", product);

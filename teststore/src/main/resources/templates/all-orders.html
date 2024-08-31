@@ -88,6 +88,11 @@
           </tr>
         </table>
         <h5 class="text-end" th:text="@{'Total: ' + ${totals[iterStat.index]} + '$'}"></h5>
+				<a th:if="${!purchase.sent}" th:href="@{/crud/send-product(id=${purchase.id})}"
+				 class="btn btn-outline-success">
+				Send product
+			</a>
+			<p th:if="${purchase.sent}" class="text-end text-dark">Order already sent</p>
       </div>
       <br>
     </div>

@@ -23,6 +23,8 @@ public class Purchase {
 
     private int userId;
 
+    private boolean sent;
+
     public int getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class Purchase {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }   
+    }
+
+    public boolean isSent() {
+        return sent;
+    }
+
+    public void setSent(boolean sent) {
+        this.sent = sent;
+    }    
 }

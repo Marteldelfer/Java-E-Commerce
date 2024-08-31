@@ -244,4 +244,16 @@ public class ProductController {
 
         return "all-orders.html";
     }
+
+    @GetMapping("/send-product")
+    public String sendProduct(
+        Model model,
+        @RequestParam int id
+    ) {
+        Purchase purchase = purchaseRepository.findById(id).get();
+        purchase.setSent(true);
+        purchaseRepository.save(purchase);
+
+        return "redirect:/crud/all-orders";
+    }
 }

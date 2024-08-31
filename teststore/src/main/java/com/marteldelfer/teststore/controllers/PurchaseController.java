@@ -78,6 +78,7 @@ public class PurchaseController {
             purchase.setProductQuantity(cart.getQuantityList());
             purchase.setCreatedAt(new Date());
             purchase.setUserId(userId);
+            purchase.setSent(false);
             purchaseRepo.save(purchase);
 
             //Clearing cart
