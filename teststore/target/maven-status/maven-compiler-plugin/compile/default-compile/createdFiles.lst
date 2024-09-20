@@ -1,9 +1,9 @@
 com/marteldelfer/teststore/models/Privilege.class
 com/marteldelfer/teststore/models/UserDto.class
 com/marteldelfer/teststore/models/Cart.class
-com/marteldelfer/teststore/SetupDataLoader.class
 com/marteldelfer/teststore/repositories/UserRepository.class
 com/marteldelfer/teststore/controllers/ProductController.class
+application.properties
 com/marteldelfer/teststore/models/ProductDto.class
 com/marteldelfer/teststore/config/SecurityConfig.class
 com/marteldelfer/teststore/models/Product.class
@@ -13,7 +13,6 @@ com/marteldelfer/teststore/repositories/PrivilegeRepository.class
 com/marteldelfer/teststore/controllers/PurchaseController.class
 com/marteldelfer/teststore/repositories/PurchaseRepository.class
 com/marteldelfer/teststore/repositories/RoleRepository.class
-com/marteldelfer/teststore/TeststoreApplication.class
 com/marteldelfer/teststore/models/User.class
 com/marteldelfer/teststore/controllers/HomeController.class
 com/marteldelfer/teststore/controllers/CreateAccountController.class
